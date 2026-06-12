@@ -53,7 +53,7 @@ class Step(BaseModel):
             - DP: {"dp": [[...]], "current": [i, j], "path": [...]}
     """
 
-    index: str
+    index: int
     message: str
     data: dict[str, Any]
 
