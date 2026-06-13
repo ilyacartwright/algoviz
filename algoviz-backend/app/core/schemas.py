@@ -201,7 +201,7 @@ class TreeNodeData(BaseModel):
     y: float
     left: Optional[int] = None
     right: Optional[int] = None
-    height: float
+    height: int = 1
 
 
 class TreeResponse(BaseModel):
@@ -218,7 +218,7 @@ class TreeResponse(BaseModel):
     """
     tree_type: TreeType
     nodes: list[TreeNodeData]
-    edges: list[dict[str, int]]
+    edges: list[dict[str, float]]
     steps: list[Step]
     total_steps: int
     complexity: dict[str, str]

@@ -2,6 +2,7 @@ from fastapi import APIRouter, HTTPException
 from app.core.schemas import (
     SortRequest, SortResponse,
     GraphRequest, GraphResponse,
+    TreeRequest, TreeResponse,
 )
 from app.algorithms.sorting.algorithms import (
     run_sort,
@@ -12,6 +13,9 @@ from app.algorithms.graphs.algorithms import (
     run_graph, 
     generate_random_graph, 
     COMPLEXITY as GRAPH_C
+)
+from app.algorithms.trees.algorithms import (
+    build_tree, COMPLEXITY as TREE_C
 )
 
 
@@ -90,4 +94,26 @@ async def run_graph_endpoint(req: GraphRequest) -> GraphResponse:
         steps=steps,
         total_steps=len(steps),
         complexity=GRAPH_C[req.algorithm.value],
+    )
+
+
+@router.post(
+    '/tree',
+    response_model=TreeResponse,
+    summary='Построить дерево из списка значений',
+)
+async def run_tree_endpoint(req: TreeRequest) -> TreeResponse:
+    """Строит дерево, вставляя значения по одному, и возвращает шаги."""
+    try:
+        result = build_tree(req.tree_type.value, req.values)
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    
+    return TreeResponse(
+        tree_type=req.tree_type,
+        nodes=result["nodes"],
+        edges=result["edges"],
+        steps=result["steps"],
+        total_steps=len(result["steps"]),
+        complexity=TREE_C[req.tree_type.value],
     )
