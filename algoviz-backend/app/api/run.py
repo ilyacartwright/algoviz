@@ -1,10 +1,19 @@
 from fastapi import APIRouter, HTTPException
-from app.core.schemas import SortRequest, SortResponse
+from app.core.schemas import (
+    SortRequest, SortResponse,
+    GraphRequest, GraphResponse,
+)
 from app.algorithms.sorting.algorithms import (
     run_sort,
     random_array,
     COMPLEXITY as SORT_C,
 )
+from app.algorithms.graphs.algorithms import (
+    run_graph, 
+    generate_random_graph, 
+    COMPLEXITY as GRAPH_C
+)
+
 
 router = APIRouter()
 
@@ -51,4 +60,34 @@ async def run_sort_endpoint(req: SortRequest) -> SortResponse:
         steps=steps,
         total_steps=len(steps),
         complexity=SORT_C[req.algorithm.value]
+    )
+
+@router.post(
+    '/graph',
+    response_model=GraphResponse,
+    summary='Запустить алгоритм на графе'
+)
+async def run_graph_endpoint(req: GraphRequest) -> GraphResponse:
+    """
+    Выполняет алгоритм обхода или поиска пути и возвращает шаги.
+
+    Если nodes и edges не переданы — граф генерируется случайно из node_count вершин. Обход начинается с вершины start_node.
+    """
+    if req.nodes and req.edges:
+        nodes, edges = req.nodes, req.edges
+    else:
+        nodes, edges = generate_random_graph(req.node_count)
+
+    try:
+        steps = run_graph(req.algorithm.value, nodes, edges, req.start_node)
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+    return GraphResponse(
+        algorithm=req.algorithm,
+        nodes=nodes,
+        edges=edges,
+        steps=steps,
+        total_steps=len(steps),
+        complexity=GRAPH_C[req.algorithm.value],
     )

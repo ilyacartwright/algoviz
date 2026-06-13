@@ -165,7 +165,7 @@ class GraphResponse(BaseModel):
     edges: list[GraphEdge]
     steps: list[Step]
     total_steps: int
-    comlexity: dict[str, str]
+    complexity: dict[str, str]
 
 # TREE
 
