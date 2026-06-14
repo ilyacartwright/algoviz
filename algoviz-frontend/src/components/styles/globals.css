@@ -1,0 +1,108 @@
+:root {
+    --bg: #0c0e16;
+    --bg2: #141720;
+    --bg3: #1a1e2e;
+    --bg4: #20253a;
+
+    --border: #252a3d;
+    --border2: #2f3652;
+
+    --text: #dde2f0;
+    --text2: #7a85a8;
+    --text3: #3e4868;
+
+    --purple: #7c6fcd;
+    --purple2: #a89df0;
+    --purple-bg: #17163a;
+
+    --teal: #2ec4a6;
+    --teal2: #55d9c0;
+    --teal-bg: #0b2820;
+
+    --coral: #e0705a;
+    --coral2: #f08b76;
+    --coral-bg: #2a1510;
+
+    --amber: #e8a838;
+    --amber2: #f5c060;
+    --amber-bg: #261c06;
+
+    --blue: #4a9eda;
+    --blue-bg: #0a1e30;
+
+    --r: 6px;
+    --r2: 10px;
+    --r3: 16px;
+
+    --mono: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+    --sans: system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body,
+#root {
+    height: 100%;
+}
+
+body {
+    font-family: var(--sans);
+    background: var(--bg);
+    color: var(--text);
+    font-size: 14px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+}
+
+button {
+    font-family: inherit;
+    cursor: pointer;
+}
+
+input {
+    font-family: inherit;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--border2);
+    border-radius: 3px;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: .4;
+    }
+}
