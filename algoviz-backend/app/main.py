@@ -1,6 +1,8 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.api import algorithms, run
+from app.api import algorithms, run, websocket, share
+
+VERSION = '0.3'
 
 app = FastAPI(
     title='AlgoViz API',
@@ -9,7 +11,7 @@ app = FastAPI(
         "Поддерживает сортировки, графы, деревья и задачи ДП"
         "Каждый алгоритм возвращает пошаговую историю для анимаии на фронте"
     ),
-    version="0.2",
+    version=VERSION,
     docs_url='/docs',
     redoc_url='/redoc'
 )
@@ -38,12 +40,22 @@ app.include_router(
     prefix='/run', 
     tags=['run']
 )
+app.include_router(
+    websocket.router,
+    prefix='/ws',
+    tags=['websocket']
+)
+app.include_router(
+    share.router,
+    prefix='/share',
+    tags=['share']
+)
 
 # HEALTH-эндпоинты
 
 @app.get('/', tags=['health'], summary='Информация о сервисе')
 async def root() -> dict:
-    return {"status": "ok", "service": "AlgoViz API", "version": "0.2"}
+    return {"status": "ok", "service": "AlgoViz API", "version": VERSION}
 
 
 @app.get("/health", tags=["health"], summary="Health check")
